@@ -1,0 +1,25 @@
+{
+  "name": "just-did",
+  "version": "1.0.0",
+  "description": "a chrome extension to consistently encourage and automate recording what you have done in the last few minutes",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javierlimt6/just-did.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/javierlimt6/just-did/issues"
+  },
+  "homepage": "https://github.com/javierlimt6/just-did#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.5",
+    "tailwindcss": "^3.4.17"
+  }
+}
