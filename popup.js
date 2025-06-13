@@ -9,16 +9,22 @@ class JustDidApp {
     init() {
         this.setupEventListeners();
         this.checkTimerState();
-        this.updateSliderValue();
+        // Remove: this.updateSliderValue();
     }
 
     setupEventListeners() {
-        // Timer slider
-        const timerSlider = document.getElementById('timer-slider');
-        const timerValue = document.getElementById('timer-value');
-
-        timerSlider.addEventListener('input', (e) => {
-            timerValue.textContent = e.target.value;
+        // Timer duration input (replace slider event listener)
+        const timerDurationInput = document.getElementById('timer-duration-input');
+        
+        timerDurationInput.addEventListener('input', (e) => {
+            // Ensure the value is within bounds
+            let value = parseInt(e.target.value);
+            
+            if (isNaN(value) || value < 1) {
+                e.target.value = 1;
+            } else if (value > 60) {
+                e.target.value = 60;
+            }
         });
 
         // Landing view buttons
@@ -31,9 +37,7 @@ class JustDidApp {
         });
 
         // Timer view buttons
-        document.getElementById('show-history-timer-btn').addEventListener('click', () => {
-            this.showHistory();
-        });
+
 
         document.getElementById('stop-timer-btn').addEventListener('click', () => {
             this.stopTimer();
@@ -70,14 +74,21 @@ class JustDidApp {
         });
     }
 
-    updateSliderValue() {
-        const slider = document.getElementById('timer-slider');
-        const value = document.getElementById('timer-value');
-        value.textContent = slider.value;
+    getStorageData(keys) {
+        return new Promise((resolve) => {
+            chrome.storage.local.get(keys, resolve);
+        });
     }
 
     async checkTimerState() {
         try {
+            const completionState = await this.getStorageData(['timerComplete']);
+            if (completionState.timerComplete) {
+            // Clear the flag so we don't show this again
+                await chrome.storage.local.set({ timerComplete: false });
+                this.showTaskEntry();
+                return;
+            }
             const response = await this.sendMessage({ action: 'getTimerState' });
             if (response.isRunning) {
                 this.showTimerRunning(response.remaining, response.duration);
@@ -97,7 +108,16 @@ class JustDidApp {
     }
 
     async startTimer() {
-        const duration = parseInt(document.getElementById('timer-slider').value);
+        // Update this to use the new number input
+        const duration = parseInt(document.getElementById('timer-duration-input').value);
+        
+        // Validate the input value
+        if (isNaN(duration) || duration < 1 || duration > 60) {
+            // Handle invalid input
+            alert('Please enter a valid duration between 1 and 60 minutes.');
+            return;
+        }
+        
         try {
             await this.sendMessage({ action: 'startTimer', duration });
             this.showTimerRunning(duration * 60 * 1000, duration);

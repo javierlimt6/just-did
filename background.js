@@ -89,21 +89,27 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'justDidTimer') {
     console.log('Timer alarm triggered');
     timerState.isRunning = false;
-    chrome.storage.local.set({ timerState });
+    chrome.storage.local.set({ 
+        timerState: timerState,
+        timerComplete: true
+     });
 
     // Show notification
     chrome.notifications.create({
       type: 'basic',
       iconUrl: 'icon.png',
-      title: 'JustDid - Time for Reflection!',
+      title: 'JustDid - Time to Log!',
       message: 'What did you just accomplish? Click to log your activity.',
       buttons: [{ title: 'Log Activity' }]
     });
 
-    // Open popup (if possible)
-    chrome.action.openPopup().catch(() => {
-      // Fallback if popup can't be opened
-      console.log('Could not open popup automatically');
+    // Force open a window
+    chrome.windows.create({
+      url: 'popup.html',
+      type: 'popup',
+      focused: true,
+      width: 400,
+      height: 600
     });
   }
 });

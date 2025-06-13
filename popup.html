@@ -17,24 +17,23 @@
         </div>
 
         <div class="timer-section">
-            <label for="timer-slider" class="timer-label">Set your focus time:</label>
-            <div class="slider-container">
-                <input type="range" id="timer-slider" min="5" max="60" value="15" class="slider">
-                <div class="slider-value">
-                    <span id="timer-value">15</span> minutes
-                </div>
+            <label for="timer-duration-input" class="timer-label">Set your focus time:</label>
+            <div class="timer-input-container">
+                <input type="number" id="timer-duration-input" value="15" class="timer-input">
+                <span class="timer-unit">minutes</span>
             </div>
         </div>
 
         <div class="button-group">
-            <button id="show-history-btn" class="btn btn-secondary">
-                <span class="icon">📋</span>
-                View Log History
-            </button>
             <button id="start-timer-btn" class="btn btn-primary">
                 <span class="icon">▶️</span>
                 Start Focus Timer
             </button>
+            <button id="show-history-btn" class="btn btn-secondary">
+                <span class="icon">📋</span>
+                View Log History
+            </button>
+
         </div>
     </div>
 
@@ -42,7 +41,7 @@
     <div id="timer-view" class="view hidden">
         <div class="header">
             <h1>JustDid</h1>
-            <p class="subtitle">Focus time in progress...</p>
+            <p class="subtitle">Come back later!</p>
         </div>
 
         <div class="timer-display">
@@ -55,10 +54,6 @@
         </div>
 
         <div class="button-group">
-            <button id="show-history-timer-btn" class="btn btn-secondary">
-                <span class="icon">📋</span>
-                View Log History
-            </button>
             <button id="stop-timer-btn" class="btn btn-danger">
                 <span class="icon">⏹️</span>
                 Stop Timer
@@ -113,7 +108,7 @@
             <div class="export-buttons">
                 <button id="export-json-btn" class="btn btn-export">JSON</button>
                 <button id="export-csv-btn" class="btn btn-export">CSV</button>
-                <button id="export-pdf-btn" class="btn btn-export">PDF</button>
+                <button id="export-pdf-btn" class="btn btn-export">TEXT</button>
             </div>
         </div>
 
